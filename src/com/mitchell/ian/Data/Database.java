@@ -1,5 +1,5 @@
 package com.mitchell.ian.Data;
 
-public class DatabaseSetUp {
+public class Database {
 
 }
