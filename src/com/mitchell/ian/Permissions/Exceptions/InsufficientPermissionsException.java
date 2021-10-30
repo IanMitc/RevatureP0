@@ -1,4 +1,4 @@
-package com.mitchell.ian.Account.Exceptions;
+package com.mitchell.ian.Permissions.Exceptions;
 
 public class InsufficientPermissionsException extends Exception {
 

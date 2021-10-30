@@ -1,4 +1,4 @@
-package com.mitchell.ian.Account;
+package com.mitchell.ian.Permissions;
 
 import com.mitchell.ian.User.Data.UserDao;
 import com.mitchell.ian.User.User;

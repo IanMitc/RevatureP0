@@ -6,7 +6,7 @@ import com.mitchell.ian.User.User;
 
 import java.util.List;
 
-abstract class Account {
+public abstract class Account {
     abstract double getBalance();
     abstract void credit(double amount) throws CreditLockedException, AccountApprovalPendingException;
     abstract void debit(double amount) throws InsufficientFundsException, DebitLockedException, AccountApprovalPendingException;

@@ -1,12 +1,23 @@
 package com.mitchell.ian.User;
 
-import com.mitchell.ian.Account.Permissions;
+import com.mitchell.ian.Account.Account;
+import com.mitchell.ian.Permissions.Permissions;
 
-public abstract class User {
+import java.util.List;
+
+public class User {
+    private int id;
     private String name;
     private String email;
     private String password;
-    private Permissions.Role userRole;
+    private final Permissions.Role userRole;
+
+    public User(String name, String email, String password, Permissions.Role userRole) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
+    }
 
     public int getId() {
         return id;
@@ -15,8 +26,6 @@ public abstract class User {
     public void setId(int id) {
         this.id = id;
     }
-
-    private int id;
 
     public String getName() {
         return name;
