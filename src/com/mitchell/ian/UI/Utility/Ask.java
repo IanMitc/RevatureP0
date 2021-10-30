@@ -1,4 +1,4 @@
-package com.mitchell.ian.Utility;
+package com.mitchell.ian.UI.Utility;
 
 import java.util.Scanner;
 
