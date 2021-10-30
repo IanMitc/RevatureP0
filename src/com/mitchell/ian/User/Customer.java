@@ -6,8 +6,8 @@ import com.mitchell.ian.Permissions.Permissions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer extends User{
-    private List<Account> accountList;
+public class Customer extends User {
+    private final List<Account> accountList;
 
     public Customer(String name, String email, String password) {
         super(name, email, password, Permissions.Role.CUSTOMER);

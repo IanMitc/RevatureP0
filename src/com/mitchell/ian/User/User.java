@@ -1,16 +1,13 @@
 package com.mitchell.ian.User;
 
-import com.mitchell.ian.Account.Account;
 import com.mitchell.ian.Permissions.Permissions;
 
-import java.util.List;
-
 public class User {
+    private final Permissions.Role userRole;
     private int id;
     private String name;
     private String email;
     private String password;
-    private final Permissions.Role userRole;
 
     public User(String name, String email, String password, Permissions.Role userRole) {
         this.name = name;
@@ -31,12 +28,12 @@ public class User {
         return name;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
