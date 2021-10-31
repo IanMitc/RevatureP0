@@ -1,4 +1,4 @@
-package com.mitchell.ian.User.Data;
+package com.mitchell.ian.Data;
 
 import com.mitchell.ian.User.User;
 

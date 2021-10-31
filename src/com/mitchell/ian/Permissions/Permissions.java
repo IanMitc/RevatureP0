@@ -1,6 +1,6 @@
 package com.mitchell.ian.Permissions;
 
-import com.mitchell.ian.User.Data.UserDao;
+import com.mitchell.ian.Data.UserDao;
 import com.mitchell.ian.User.User;
 
 public class Permissions {
