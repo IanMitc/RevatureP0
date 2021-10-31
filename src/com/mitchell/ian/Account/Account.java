@@ -12,6 +12,8 @@ import java.util.List;
 public abstract class Account {
     abstract double getBalance();
 
+    abstract double getBalanceWithPending();
+
     abstract void credit(double amount) throws CreditLockedException, AccountApprovalPendingException;
 
     abstract void debit(double amount) throws InsufficientFundsException, DebitLockedException, AccountApprovalPendingException;
@@ -25,4 +27,6 @@ public abstract class Account {
     abstract List<User> getOwners();
 
     abstract List<Transaction> getLedger();
+
+    abstract List<Transaction> getPendingTransactions();
 }
