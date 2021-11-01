@@ -14,9 +14,9 @@ public interface AccountDao {
 
     List<Account> getAllPendingAccounts();
 
-    void addAccount(Account Account);
+    void addAccount(Account account);
 
-    void deleteAccount(Account Account);
+    void deleteAccount(Account account);
 
-    void updateAccount(Account Account);
+    void updateAccount(Account account);
 }
