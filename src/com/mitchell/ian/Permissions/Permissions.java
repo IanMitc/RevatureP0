@@ -1,5 +1,6 @@
 package com.mitchell.ian.Permissions;
 
+import com.mitchell.ian.Data.DaoFactory;
 import com.mitchell.ian.Data.UserDao;
 import com.mitchell.ian.User.User;
 
@@ -38,8 +39,9 @@ public class Permissions {
         return user.getRole();
     }
 
-    public boolean login(UserDao dao, String username, String password) {
-        user = dao.getUserByUsername();
+    public boolean login(String email, String password) {
+        UserDao dao = DaoFactory.getUserDao();
+        user = dao.getUser(email);
         if (user.checkPassword(password)) {
             loggedIn = true;
             return true;
@@ -47,7 +49,6 @@ public class Permissions {
             user = null;
             return false;
         }
-
     }
 
     public enum Role {
