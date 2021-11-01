@@ -5,28 +5,106 @@ import com.mitchell.ian.Account.Exceptions.CreditLockedException;
 import com.mitchell.ian.Account.Exceptions.DebitLockedException;
 import com.mitchell.ian.Account.Exceptions.InsufficientFundsException;
 import com.mitchell.ian.Transaction.Transaction;
-import com.mitchell.ian.User.User;
 
 import java.util.List;
 
-public abstract class Account {
-    abstract double getBalance();
+public class Account {
+    int id;
+    double balance;
+    boolean creditLocked;
+    boolean debitLocked;
+    boolean pending;
 
-    abstract double getBalanceWithPending();
+    public Account(int id, double balance, boolean creditLocked, boolean debitLocked, boolean pending) {
+        this.id = id;
+        this.balance = balance;
+        this.creditLocked = creditLocked;
+        this.debitLocked = debitLocked;
+        this.pending = pending;
+    }
 
-    abstract void credit(double amount) throws CreditLockedException, AccountApprovalPendingException;
+    public Account(double balance) {
+        this.balance = balance;
+        this.creditLocked = false;
+        this.debitLocked = true;
+        this.pending = true;
+    }
 
-    abstract void debit(double amount) throws InsufficientFundsException, DebitLockedException, AccountApprovalPendingException;
+    public boolean isCreditLocked() {
+        return creditLocked;
+    }
 
-    abstract boolean isCreditLocked();
+    public void setCreditLocked(boolean creditLocked) {
+        this.creditLocked = creditLocked;
+    }
 
-    abstract boolean isDebitLocked();
+    public int getId() {
+        return id;
+    }
 
-    abstract boolean isPendingApproval();
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    abstract List<User> getOwners();
+    public boolean isPending() {
+        return pending;
+    }
 
-    abstract List<Transaction> getLedger();
+    public void setPending(boolean pending) {
+        this.pending = pending;
+    }
 
-    abstract List<Transaction> getPendingTransactions();
+    double getBalance() {
+        return balance;
+    }
+
+    double getBalanceWithPending(){
+        return 0.00;
+    }
+
+    void credit(double amount) throws CreditLockedException, AccountApprovalPendingException{
+        if (pending) {
+            throw new AccountApprovalPendingException();
+        }
+        if (creditLocked){
+            throw new CreditLockedException();
+        }
+
+        balance += amount;
+    }
+
+    void debit(double amount) throws InsufficientFundsException, DebitLockedException, AccountApprovalPendingException{
+        if (pending) {
+            throw new AccountApprovalPendingException();
+        }
+        if (creditLocked){
+            throw new DebitLockedException();
+        }
+
+        if (balance < amount){
+            throw new InsufficientFundsException();
+        }
+
+        balance -= amount;
+    }
+
+    boolean isDebitLocked(){
+        return debitLocked;
+    }
+
+    public void setDebitLocked(boolean debitLocked) {
+        this.debitLocked = debitLocked;
+    }
+
+    List<Transaction> getOwners(){
+        return null;
+    }
+
+    List<Transaction> getLedger(){
+        return null;
+    }
+
+    List<Transaction> getPendingTransactions(){
+        return null;
+    }
 }
