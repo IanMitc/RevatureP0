@@ -15,11 +15,11 @@ public class Transaction {
     private final User initiatedBy;
     private final Date dateInitiated;
     private final boolean requireUserApproval;
+    private int id;
     private User completedBy;
     private Date dateCompleted;
     private boolean pending;
     private boolean canceled;
-
     public Transaction(double amount, Account fromAccount, Account toAccount, String memo, User initiatedBy, boolean requireUserApproval) throws InvalidAmountException, NullPointerException {
         if (amount <= 0)
             this.amount = amount;
@@ -42,6 +42,14 @@ public class Transaction {
         pending = true;
         canceled = false;
         this.requireUserApproval = requireUserApproval;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDateInitiated() {
