@@ -4,7 +4,7 @@ import com.mitchell.ian.User.User;
 
 import java.util.List;
 
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
     @Override
     public User getUser(String email) {
         return null;
