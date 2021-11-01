@@ -49,7 +49,11 @@ public class Database {
                 "KEY `ix_transactions_initiated_by` (`initiated_by`)," +
                 "KEY `ix_transactions_pending` (`pending`)," +
                 "KEY `ix_transactions_date_completed` (`date_completed`)," +
-                "KEY `ix_transactions_date_initiated` (`date_initiated`)" +
+                "KEY `ix_transactions_date_initiated` (`date_initiated`)," +
+                "CONSTRAINT `fk_completed_by` FOREIGN KEY (`completed_by`) REFERENCES `users` (`id`)," +
+                "CONSTRAINT `fk_initiated_by` FOREIGN KEY (`initiated_by`) REFERENCES `users` (`id`)," +
+                "CONSTRAINT `fk_from_account` FOREIGN KEY (`from_account`) REFERENCES `accounts` (`id`)," +
+                "CONSTRAINT `fk_to_account` FOREIGN KEY (`to_account`) REFERENCES `accounts` (`id`)" +
                 ")";
         String createAccountsTable = "CREATE TABLE `accounts` (" +
                 "`id` int NOT NULL AUTO_INCREMENT," +
@@ -83,16 +87,16 @@ public class Database {
                 statement.addBatch(createUserTableSql);
             }
 
-            if (!tables.contains("transactions")) {
-                statement.addBatch(createTransactionsTableSql);
-            }
-
             if (!tables.contains("accounts")) {
                 statement.addBatch(createAccountsTable);
             }
 
             if (!tables.contains("user2account")) {
                 statement.addBatch(createUser2AccountTable);
+            }
+
+            if (!tables.contains("transactions")) {
+                statement.addBatch(createTransactionsTableSql);
             }
 
             statement.executeBatch();
