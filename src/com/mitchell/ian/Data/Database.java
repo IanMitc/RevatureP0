@@ -11,6 +11,10 @@ public class Database {
     public static void initialize() {
         initializeTables();
         initializeStoredProcedures();
+        populateDefaultData();
+    }
+
+    private static void populateDefaultData() {
     }
 
     private static void initializeTables() {
@@ -22,11 +26,9 @@ public class Database {
                 "`name` char(50) NOT NULL," +
                 "`email` char(50) NOT NULL," +
                 "`role` enum('SYSTEM','ADMIN','EMPLOYEE','CUSTOMER') DEFAULT NULL," +
-                "`accounts` int DEFAULT NULL," +
                 "`password` char(64) NOT NULL," +
                 "PRIMARY KEY (`id`)," +
                 "UNIQUE KEY `email` (`email`)," +
-                "KEY `ix_users_id` (`id`)," +
                 "KEY `ix_users_email` (`email`)" +
                 ")";
         String createTransactionsTableSql = "CREATE TABLE `transactions` (" +
@@ -41,7 +43,6 @@ public class Database {
                 "`require_user_approval` boolean DEFAULT NULL," +
                 "`pending` boolean DEFAULT NULL," +
                 "PRIMARY KEY (`id`)," +
-                "KEY `ix_transactions_id` (`id`)," +
                 "KEY `ix_transactions_from_account` (`from_account`)," +
                 "KEY `ix_transactions_to_account` (`to_account`)," +
                 "KEY `ix_transactions_completed_by` (`completed_by`)," +
@@ -53,37 +54,48 @@ public class Database {
         String createAccountsTable = "CREATE TABLE `accounts` (" +
                 "`id` int NOT NULL AUTO_INCREMENT," +
                 "`balance` decimal(15,2) NOT NULL," +
-                "`owners` int NOT NULL," +
-                "`transactions` int DEFAULT NULL," +
                 "`credit_locked` boolean DEFAULT NULL," +
                 "`debit_locked` boolean DEFAULT NULL," +
                 "`pending` boolean DEFAULT NULL," +
                 "PRIMARY KEY (`id`)," +
-                "KEY `ix_account_id` (`id`)," +
                 "KEY `ix_account_pending` (`pending`)" +
                 ")";
+        String createUser2AccountTable = "CREATE TABLE `user2account` (" +
+                "`user_id` int NOT NULL," +
+                "`account_id` int NOT NULL," +
+                "PRIMARY KEY (`user_id`,`account_id`)," +
+                "KEY `ix_user2account_account_id` (`account_id`)," +
+                "KEY `ix_user2account_user_id` (`user_id`), " +
+                "UNIQUE KEY `ix_user2account_reverse_pk` (`account_id`,`user_id`)," +
+                "CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE," +
+                "CONSTRAINT `fk_account_id` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE" +
+                ")";
 
-        try {
+        try (Statement statement = connection.createStatement()) {
             List<String> tables = new ArrayList<>();
 
-            Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(getTablesSql);
-
             while (rs.next()) {
                 tables.add(rs.getString(1));
             }
 
-            if (!tables.contains("users")){
-                statement.executeUpdate(createUserTableSql);
+            if (!tables.contains("users")) {
+                statement.addBatch(createUserTableSql);
             }
 
-            if (!tables.contains("transactions")){
-                statement.executeUpdate(createTransactionsTableSql);
+            if (!tables.contains("transactions")) {
+                statement.addBatch(createTransactionsTableSql);
             }
 
-            if (!tables.contains("accounts")){
-                statement.executeUpdate(createAccountsTable);
+            if (!tables.contains("accounts")) {
+                statement.addBatch(createAccountsTable);
             }
+
+            if (!tables.contains("user2account")) {
+                statement.addBatch(createUser2AccountTable);
+            }
+
+            statement.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -92,16 +104,14 @@ public class Database {
     private static void initializeStoredProcedures() {
         Connection connection = ConnectionFactory.getConnection();
 
-        String getStoredProceduresSql ="show procedure status where db = 'the_bank'";
+        String getStoredProceduresSql = "show procedure status where db = 'the_bank'";
         String dropProcedure = "DROP PROCEDURE IF EXISTS ";
-        String createGetUserById = "create procedure sp_get_user_by_id (IN var1 INTEGER) " +
+        String createGetUserById = "create procedure getUserById (IN varId INTEGER) " +
                 "BEGIN " +
-                "select * from user where id = var1; " +
+                "select * from user where id = varId; " +
                 "END";
-        try {
-            Statement statement = connection.createStatement();
-            //statement.executeUpdate(createGetUserById);
-            statement.addBatch(dropProcedure + "sp_get_user_by_id");
+        try (Statement statement = connection.createStatement()) {
+            statement.addBatch(dropProcedure + "getUserById");
             statement.addBatch(createGetUserById);
 
             statement.executeBatch();
