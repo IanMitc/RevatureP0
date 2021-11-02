@@ -9,11 +9,23 @@ public class User {
     private String email;
     private String password;
 
+    public User(int id, String name, String email, Permissions.Role userRole, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.userRole = userRole;
+        this.password = password;
+    }
+
     public User(String name, String email, String password, Permissions.Role userRole) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public int getId() {

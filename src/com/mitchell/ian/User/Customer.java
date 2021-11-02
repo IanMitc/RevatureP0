@@ -7,24 +7,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
-    private final List<Account> accountList;
+    private final List<Integer> accountList;
 
     public Customer(String name, String email, String password) {
         super(name, email, password, Permissions.Role.CUSTOMER);
         accountList = new ArrayList<>();
     }
 
-    public List<Account> getAccounts() {
+    public Customer(int id, String name, String email, String password) {
+        super(id, name, email, Permissions.Role.CUSTOMER, password);
+        accountList = new ArrayList<>();
+    }
+
+    public List<Integer> getAccounts() {
         return accountList;
     }
 
-    public List<Account> addAccount(Account account) {
-        accountList.add(account);
+    public List<Integer> addAccount(Account account) {
+        accountList.add(account.getId());
         return accountList;
     }
 
-    public List<Account> removeAccount(Account account) {
-        accountList.remove(account);
+    public List<Integer> addAccount(Integer id) {
+        accountList.add(id);
         return accountList;
     }
+
+    public List<Integer> removeAccount(Account account) {
+        accountList.remove(account.getId());
+        return accountList;
+    }
+
+    public List<Integer> removeAccount(Integer id) {
+        accountList.remove(id);
+        return accountList;
+    }
+
 }
