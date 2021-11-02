@@ -51,10 +51,11 @@ public class Ask {
 
         System.out.print(question + " (" + trueChar + '/' + falseChar + "): ");
         String result = scanner.nextLine();
+        char charResult = Character.toUpperCase(result.charAt(0));
 
-        if (result.length() != 1 || (result.charAt(0) != trueChar && result.charAt(0) != falseChar))
+        if (result.length() != 1 || (charResult != trueChar && charResult != falseChar))
             throw new Exception("Please choose " + trueChar + " or " + falseChar);
         else
-            return Character.toUpperCase(result.charAt(0)) == trueChar;
+            return  charResult == trueChar;
     }
 }
