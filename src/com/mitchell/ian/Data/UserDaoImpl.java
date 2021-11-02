@@ -159,7 +159,7 @@ public class UserDaoImpl implements UserDao {
     public void deleteUser(User user) {
         String sql = "UPDATE users SET active = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setBoolean(1, true);
+            preparedStatement.setBoolean(1, false);
             preparedStatement.setInt(2, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -15,6 +15,19 @@ public class Database {
     }
 
     private static void populateDefaultData() {
+        Connection connection = ConnectionFactory.getConnection();
+
+        String adminInsertSql = "INSERT INTO users values (1, 'Administrator', 'admin', 'ADMIN', 'password', true)";
+        String cashAccountInsertSql = "INSERT INTO accounts values (1, 5000000, false, false, false, false)";
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+            statement.addBatch(adminInsertSql);
+            statement.addBatch(cashAccountInsertSql);
+            statement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void initializeTables() {

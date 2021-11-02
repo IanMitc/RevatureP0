@@ -23,6 +23,7 @@ public class MainMenu {
                 selection = Ask.forInt("Select Option");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                continue;
             }
 
             switch (selection) {

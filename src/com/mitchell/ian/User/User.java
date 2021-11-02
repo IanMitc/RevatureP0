@@ -78,4 +78,9 @@ public class User {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    @Override
+    public String toString() {
+        return "Id: " + this.id + " Name: " + this.name + " Email: " + this.email;
+    }
 }

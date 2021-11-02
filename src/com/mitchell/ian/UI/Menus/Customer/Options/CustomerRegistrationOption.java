@@ -15,8 +15,11 @@ public class CustomerRegistrationOption {
         String password = Ask.forString("Enter Password");
 
         Customer customer = new Customer(name,email,password);
-        UserDao userDao = DaoFactory.getUserDao();
 
+        UserDao userDao = DaoFactory.getUserDao();
         userDao.addUser(customer);
+
+        Clear.console();
+        System.out.println(customer.toString() + "\nCreated");
     }
 }
