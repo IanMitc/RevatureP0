@@ -87,9 +87,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<Customer> getAllCustomers() {
         List<Customer> customerList = new ArrayList<>();
+        User2AccountDao dao = DaoFactory.getUser2AccountDao();
 
         String sql = "SELECT * FROM users WHERE role = 'CUSTOMER'";
-        String getAccountsSql = "SELECT * FROM user2account WHERE user_id = ?";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -99,12 +99,7 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("email"),
                         resultSet.getString("password")
                 );
-                PreparedStatement preparedStatement = connection.prepareStatement(getAccountsSql);
-                preparedStatement.setInt(1, retrievedCustomer.getId());
-                ResultSet accountsResultSet = preparedStatement.executeQuery();
-                while (accountsResultSet.next()) {
-                    retrievedCustomer.addAccount(accountsResultSet.getInt("account_id"));
-                }
+                retrievedCustomer.addAccounts(dao.getAccounts(retrievedCustomer.getId()));
                 customerList.add(retrievedCustomer);
             }
         } catch (SQLException e) {

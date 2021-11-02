@@ -43,4 +43,9 @@ public class Customer extends User {
         return accountList;
     }
 
+    public void addAccounts(List<Integer> accounts) {
+        for (int i : accounts){
+            addAccount(i);
+        }
+    }
 }
