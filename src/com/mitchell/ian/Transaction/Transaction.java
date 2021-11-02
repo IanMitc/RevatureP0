@@ -37,10 +37,10 @@ public class Transaction {
     }
 
     public Transaction(double amount, Account fromAccount, Account toAccount, String memo, User initiatedBy, boolean requireUserApproval) throws InvalidAmountException, NullPointerException {
-        //
-        this.amount = amount;
-        //else
-        //  throw new InvalidAmountException();
+        if (amount >= 0.00)
+            this.amount = amount;
+        else
+            throw new InvalidAmountException();
 
         if (fromAccount != null && toAccount != null) {
             this.fromAccount = fromAccount;
