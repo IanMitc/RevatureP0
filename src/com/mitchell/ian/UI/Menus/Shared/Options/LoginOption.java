@@ -5,11 +5,14 @@ import com.mitchell.ian.UI.Menus.Admin.AdminMenu;
 import com.mitchell.ian.UI.Menus.Customer.CustomerMenu;
 import com.mitchell.ian.UI.Menus.Employee.EmployeeMenu;
 import com.mitchell.ian.UI.Utility.Ask;
+import com.mitchell.ian.UI.Utility.Clear;
 
 public class LoginOption {
     public static void execute() {
         Permissions permissions = Permissions.getPermissions();
 
+        Clear.console();
+        System.out.println("Please Login");
         String email = Ask.forString("Email");
         String password = Ask.forString("Password");
 
@@ -31,6 +34,5 @@ public class LoginOption {
                 permissions.logout();
             }
         }
-
     }
 }
