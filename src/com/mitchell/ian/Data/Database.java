@@ -42,6 +42,7 @@ public class Database {
                 "`date_completed` datetime DEFAULT NULL," +
                 "`require_user_approval` boolean DEFAULT NULL," +
                 "`pending` boolean DEFAULT NULL," +
+                "`memo` varchar(100) DEFAULT NULL," +
                 "PRIMARY KEY (`id`)," +
                 "KEY `ix_transactions_from_account` (`from_account`)," +
                 "KEY `ix_transactions_to_account` (`to_account`)," +

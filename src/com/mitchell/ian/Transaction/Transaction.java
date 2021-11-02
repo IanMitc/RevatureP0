@@ -20,11 +20,27 @@ public class Transaction {
     private Date dateCompleted;
     private boolean pending;
     private boolean canceled;
+
+    public Transaction(double amount, Account fromAccount, Account toAccount, String memo, User initiatedBy, Date dateInitiated, boolean requireUserApproval, int id, User completedBy, Date dateCompleted, boolean pending) {
+        this.amount = amount;
+        this.fromAccount = fromAccount;
+        this.toAccount = toAccount;
+        this.memo = memo;
+        this.initiatedBy = initiatedBy;
+        this.dateInitiated = dateInitiated;
+        this.requireUserApproval = requireUserApproval;
+        this.id = id;
+        this.completedBy = completedBy;
+        this.dateCompleted = dateCompleted;
+        this.pending = pending;
+        this.canceled = false;
+    }
+
     public Transaction(double amount, Account fromAccount, Account toAccount, String memo, User initiatedBy, boolean requireUserApproval) throws InvalidAmountException, NullPointerException {
-        if (amount <= 0)
-            this.amount = amount;
-        else
-            throw new InvalidAmountException();
+        //
+        this.amount = amount;
+        //else
+        //  throw new InvalidAmountException();
 
         if (fromAccount != null && toAccount != null) {
             this.fromAccount = fromAccount;
@@ -44,6 +60,22 @@ public class Transaction {
         this.requireUserApproval = requireUserApproval;
     }
 
+    public User getCompletedBy() {
+        return completedBy;
+    }
+
+    public void setCompletedBy(User completedBy) {
+        this.completedBy = completedBy;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
+
     public int getId() {
         return id;
     }
@@ -60,8 +92,16 @@ public class Transaction {
         return dateCompleted;
     }
 
+    public void setDateCompleted(Date dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
     public boolean isPending() {
         return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
     }
 
     public double getAmount() {

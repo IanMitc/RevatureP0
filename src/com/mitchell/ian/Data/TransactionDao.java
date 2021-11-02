@@ -7,13 +7,13 @@ import com.mitchell.ian.User.User;
 import java.util.List;
 
 public interface TransactionDao {
-    Transaction getTransaction(User user);
-
     Transaction getTransaction(Account account);
 
     Transaction getTransaction(int id);
 
     List<Transaction> getAllTransactions();
+
+    List<Transaction> getAllTransaction(User user);
 
     List<Transaction> getAllPendingTransactions();
 
