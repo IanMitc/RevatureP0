@@ -99,7 +99,6 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("email"),
                         resultSet.getString("password")
                 );
-                retrievedCustomer.addAccounts(dao.getAccounts(retrievedCustomer.getId()));
                 customerList.add(retrievedCustomer);
             }
         } catch (SQLException e) {
