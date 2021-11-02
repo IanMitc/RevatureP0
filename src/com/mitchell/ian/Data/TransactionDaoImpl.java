@@ -46,7 +46,7 @@ public class TransactionDaoImpl implements TransactionDao {
     }
 
     @Override
-    public List<Transaction> getAllTransaction(User user) {
+    public List<Transaction> getAllTransactions(User user) {
         List<Transaction> transactionList = new ArrayList<>();
         AccountDao accountDao = DaoFactory.getAccountDao();
         UserDao userDao = DaoFactory.getUserDao();
@@ -79,34 +79,36 @@ public class TransactionDaoImpl implements TransactionDao {
     }
 
     @Override
-    public Transaction getTransaction(Account account) {
-        Transaction retrievedTransaction = null;
+    public List<Transaction> getAllTransactions(Account account) {
+        List<Transaction> transactionList = new ArrayList<>();
         AccountDao accountDao = DaoFactory.getAccountDao();
         UserDao userDao = DaoFactory.getUserDao();
 
-        String sql = "SELECT * FROM account WHERE from_account = ? OR to_account = ?";
+        String sql = "SELECT * FROM transactions WHERE (from_account = ? OR to_account = ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, account.getId());
             preparedStatement.setInt(2, account.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            retrievedTransaction = new Transaction(
-                    resultSet.getDouble("amount"),
-                    accountDao.getAccount(resultSet.getInt("from_account")),
-                    accountDao.getAccount(resultSet.getInt("to_account")),
-                    resultSet.getString("memo"),
-                    userDao.getUser(resultSet.getInt("initiated_by")),
-                    resultSet.getDate("date_initiated"),
-                    resultSet.getBoolean("require_user_approval"),
-                    resultSet.getInt("id"),
-                    userDao.getUser(resultSet.getInt("completed_by")),
-                    resultSet.getDate("date_completed"),
-                    resultSet.getBoolean("pending")
-            );
+            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            while (resultSet.next()) {
+                Transaction retrievedTransaction = new Transaction(
+                        resultSet.getDouble("amount"),
+                        accountDao.getAccount(resultSet.getInt("from_account")),
+                        accountDao.getAccount(resultSet.getInt("to_account")),
+                        resultSet.getString("memo"),
+                        userDao.getUser(resultSet.getInt("initiated_by")),
+                        resultSet.getDate("date_initiated"),
+                        resultSet.getBoolean("require_user_approval"),
+                        resultSet.getInt("id"),
+                        userDao.getUser(resultSet.getInt("completed_by")),
+                        resultSet.getDate("date_completed"),
+                        resultSet.getBoolean("pending")
+                );
+                transactionList.add(retrievedTransaction);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return retrievedTransaction;
+        return transactionList;
     }
 
     @Override
