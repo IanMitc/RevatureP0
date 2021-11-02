@@ -19,9 +19,8 @@ public class Database {
 
         String adminInsertSql = "INSERT INTO users values (1, 'Administrator', 'admin', 'ADMIN', 'password', true)";
         String cashAccountInsertSql = "INSERT INTO accounts values (1, 5000000, false, false, false, false)";
-        Statement statement = null;
         try {
-            statement = connection.createStatement();
+            Statement statement = connection.createStatement();
             statement.addBatch(adminInsertSql);
             statement.addBatch(cashAccountInsertSql);
             statement.executeBatch();

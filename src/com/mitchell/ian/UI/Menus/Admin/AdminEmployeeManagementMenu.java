@@ -12,7 +12,7 @@ public class AdminEmployeeManagementMenu {
 
         boolean run = true;
         while (run) {
-            int selection = 0;
+            int selection;
 
             System.out.println("\nEmployee Management\n\n");
 

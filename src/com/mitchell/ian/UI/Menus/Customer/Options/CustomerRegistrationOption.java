@@ -20,6 +20,6 @@ public class CustomerRegistrationOption {
         userDao.addUser(customer);
 
         Clear.console();
-        System.out.println(customer.toString() + "\nCreated");
+        System.out.println(customer + "\nCreated");
     }
 }

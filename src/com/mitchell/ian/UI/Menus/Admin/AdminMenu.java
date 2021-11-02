@@ -22,7 +22,7 @@ public class AdminMenu {
             System.out.println("1 - Manage Employees");
             System.out.println("2 - Logout");
 
-            int selection = 0;
+            int selection;
             try {
                 selection = Ask.forInt("Select Option");
             } catch (Exception e) {

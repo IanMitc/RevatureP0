@@ -20,6 +20,6 @@ public class EmployeeCreateOption {
         userDao.addUser(employee);
 
         Clear.console();
-        System.out.println(employee.toString() + "\nCreated");
+        System.out.println(employee + "\nCreated");
     }
 }

@@ -11,7 +11,7 @@ public class MainMenu {
     public static void show() {
         boolean run = true;
         while (run) {
-            int selection = 0;
+            int selection;
             Clear.console();
 
             System.out.println("\nWelcome to The Bank\n\n");
