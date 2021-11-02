@@ -18,24 +18,26 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUser(String email) {
-        User retrievedCustomer = null;
+        User retrievedUser = null;
 
         String sql = "SELECT * FROM users WHERE email = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            retrievedCustomer = new User(
+            retrievedUser = new User(
                     resultSet.getInt("id"),
                     resultSet.getString("name"),
                     resultSet.getString("email"),
                     Permissions.Role.valueOf(resultSet.getString("role")),
                     resultSet.getString("password")
             );
+            retrievedUser.setActive(resultSet.getBoolean("active"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return retrievedCustomer;
+        return retrievedUser;
 
     }
 
@@ -55,6 +57,8 @@ public class UserDaoImpl implements UserDao {
                     Permissions.Role.valueOf(resultSet.getString("role")),
                     resultSet.getString("password")
             );
+            retrievedUser.setActive(resultSet.getBoolean("active"));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,7 +69,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
 
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM users WHERE active = true";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -76,6 +80,8 @@ public class UserDaoImpl implements UserDao {
                         Permissions.Role.valueOf(resultSet.getString("role")),
                         resultSet.getString("password")
                 );
+                retrievedUser.setActive(resultSet.getBoolean("active"));
+
                 userList.add(retrievedUser);
             }
         } catch (SQLException e) {
@@ -89,7 +95,7 @@ public class UserDaoImpl implements UserDao {
         List<Customer> customerList = new ArrayList<>();
         User2AccountDao dao = DaoFactory.getUser2AccountDao();
 
-        String sql = "SELECT * FROM users WHERE role = 'CUSTOMER'";
+        String sql = "SELECT * FROM users WHERE role = 'CUSTOMER' AND active = true";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -99,6 +105,7 @@ public class UserDaoImpl implements UserDao {
                         resultSet.getString("email"),
                         resultSet.getString("password")
                 );
+                retrievedCustomer.setActive(resultSet.getBoolean("active"));
                 customerList.add(retrievedCustomer);
             }
         } catch (SQLException e) {
@@ -111,17 +118,18 @@ public class UserDaoImpl implements UserDao {
     public List<Employee> getAllEmployees() {
         List<Employee> employeeList = new ArrayList<>();
 
-        String sql = "SELECT * FROM users WHERE role = 'EMPLOYEE'";
+        String sql = "SELECT * FROM users WHERE role = 'EMPLOYEE' AND active = true";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                Employee retrievedCustomer = new Employee(
+                Employee retrievedEmployee = new Employee(
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getString("email"),
                         resultSet.getString("password")
                 );
-                employeeList.add(retrievedCustomer);
+                retrievedEmployee.setActive(resultSet.getBoolean("active"));
+                employeeList.add(retrievedEmployee);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -149,9 +157,10 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(User user) {
-        String sql = "DELETE FROM users WHERE id = ?";
+        String sql = "UPDATE users SET active = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setBoolean(1, true);
+            preparedStatement.setInt(2, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,13 +169,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void updateUser(User user) {
-        String sql = "UPDATE users SET name = ?, email = ?, role = ?, password = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, email = ?, role = ?, password = ?, active = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getRole().toString());
             preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setInt(5, user.getId());
+            preparedStatement.setBoolean(5, user.isActive());
+            preparedStatement.setInt(6, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

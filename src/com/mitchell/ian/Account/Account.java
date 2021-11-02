@@ -30,7 +30,7 @@ public class Account {
         this.creditLocked = false;
         this.debitLocked = true;
         this.pending = true;
-        this.closed = true;
+        this.closed = false;
     }
 
     public boolean isCreditLocked() {

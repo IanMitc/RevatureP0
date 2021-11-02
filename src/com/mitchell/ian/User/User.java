@@ -8,6 +8,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private boolean active;
 
     public User(int id, String name, String email, Permissions.Role userRole, String password) {
         this.id = id;
@@ -15,6 +16,7 @@ public class User {
         this.email = email;
         this.userRole = userRole;
         this.password = password;
+        this.active = true;
     }
 
     public User(String name, String email, String password, Permissions.Role userRole) {
@@ -22,6 +24,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+        this.active = true;
     }
 
     public String getPassword() {
@@ -66,5 +69,13 @@ public class User {
 
     public Permissions.Role getRole() {
         return userRole;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

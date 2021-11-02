@@ -41,7 +41,7 @@ public class AccountDaoImpl implements AccountDao {
     public List<Account> getAllAccounts() {
         List<Account> accountList = new ArrayList<>();
 
-        String sql = "SELECT * FROM accounts";
+        String sql = "SELECT * FROM accounts WHERE closed = false";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -66,7 +66,7 @@ public class AccountDaoImpl implements AccountDao {
     public List<Account> getAllAccounts(User user) {
         List<Account> accountList = new ArrayList<>();
 
-        String sql = "SELECT * FROM user2account WHERE user_id = ?";
+        String sql = "SELECT * FROM user2account WHERE user_id = ? AND closed = false";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -83,7 +83,7 @@ public class AccountDaoImpl implements AccountDao {
     public List<Account> getAllPendingAccounts() {
         List<Account> accountList = new ArrayList<>();
 
-        String sql = "SELECT * FROM accounts WHERE pending = true";
+        String sql = "SELECT * FROM accounts WHERE pending = true AND closed = false";
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -119,9 +119,10 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public void deleteAccount(Account account) {
-        String sql = "DELETE FROM accounts WHERE id = ?";
+        String sql = "UPDATE accounts SET closed = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, account.getId());
+            preparedStatement.setBoolean(1,true);
+            preparedStatement.setInt(2, account.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,13 +131,14 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public void updateAccount(Account account) {
-        String sql = "UPDATE accounts SET balance = ?, credit_locked = ?, debit_locked = ?, pending = ? WHERE id = ?";
+        String sql = "UPDATE accounts SET balance = ?, credit_locked = ?, debit_locked = ?, pending = ?, closed = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setDouble(1, account.getBalance());
             preparedStatement.setBoolean(2, account.isCreditLocked());
             preparedStatement.setBoolean(3, account.isDebitLocked());
             preparedStatement.setBoolean(4, account.isPending());
-            preparedStatement.setInt(5, account.getId());
+            preparedStatement.setBoolean(5, account.isClosed());
+            preparedStatement.setInt(6, account.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
