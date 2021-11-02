@@ -4,7 +4,10 @@ import com.mitchell.ian.Account.Exceptions.AccountApprovalPendingException;
 import com.mitchell.ian.Account.Exceptions.CreditLockedException;
 import com.mitchell.ian.Account.Exceptions.DebitLockedException;
 import com.mitchell.ian.Account.Exceptions.InsufficientFundsException;
+import com.mitchell.ian.Data.DaoFactory;
+import com.mitchell.ian.Data.TransactionDao;
 import com.mitchell.ian.Transaction.Transaction;
+import com.mitchell.ian.User.User;
 
 import java.util.List;
 
@@ -31,6 +34,19 @@ public class Account {
         this.debitLocked = true;
         this.pending = true;
         this.closed = false;
+    }
+
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (obj instanceof Account otherAccount){
+//            return otherAccount.getId() == this.getId();
+//        }
+//        return false;
+//    }
+
+    @Override
+    public String toString() {
+        return String.format("Account Number: %o Balance: %.2f Available Balance: %.2f", this.id, this.balance, this.getBalanceWithPending());
     }
 
     public boolean isCreditLocked() {
@@ -62,7 +78,16 @@ public class Account {
     }
 
     public double getBalanceWithPending() {
-        return 0.00;
+        double pendingBalance = balance;
+
+        List<Transaction> transactions = getPendingTransactions();
+
+        for (Transaction t : transactions) {
+            if (t.getFromAccount().equals(this)) {
+                pendingBalance -= t.getAmount();
+            }
+        }
+        return pendingBalance;
     }
 
     public void credit(double amount) throws CreditLockedException, AccountApprovalPendingException {
@@ -99,16 +124,18 @@ public class Account {
         this.debitLocked = debitLocked;
     }
 
-    public List<Transaction> getOwners() {
+    public List<User> getOwners() {
         return null;
     }
 
     public List<Transaction> getLedger() {
-        return null;
+        TransactionDao transactionDao = DaoFactory.getTransactionDao();
+        return transactionDao.getAllTransactions(this);
     }
 
     public List<Transaction> getPendingTransactions() {
-        return null;
+        TransactionDao transactionDao = DaoFactory.getTransactionDao();
+        return transactionDao.getAllPendingTransactions(this);
     }
 
     public boolean isClosed() {
