@@ -61,37 +61,37 @@ public class Account {
         return balance;
     }
 
-    public double getBalanceWithPending(){
+    public double getBalanceWithPending() {
         return 0.00;
     }
 
-    public void credit(double amount) throws CreditLockedException, AccountApprovalPendingException{
+    public void credit(double amount) throws CreditLockedException, AccountApprovalPendingException {
         if (pending) {
             throw new AccountApprovalPendingException();
         }
-        if (creditLocked){
+        if (creditLocked) {
             throw new CreditLockedException();
         }
 
         balance += amount;
     }
 
-    public void debit(double amount) throws InsufficientFundsException, DebitLockedException, AccountApprovalPendingException{
+    public void debit(double amount) throws InsufficientFundsException, DebitLockedException, AccountApprovalPendingException {
         if (pending) {
             throw new AccountApprovalPendingException();
         }
-        if (creditLocked){
+        if (creditLocked) {
             throw new DebitLockedException();
         }
 
-        if (balance < amount){
+        if (balance < amount) {
             throw new InsufficientFundsException();
         }
 
         balance -= amount;
     }
 
-    public boolean isDebitLocked(){
+    public boolean isDebitLocked() {
         return debitLocked;
     }
 
@@ -99,15 +99,15 @@ public class Account {
         this.debitLocked = debitLocked;
     }
 
-    public List<Transaction> getOwners(){
+    public List<Transaction> getOwners() {
         return null;
     }
 
-    public List<Transaction> getLedger(){
+    public List<Transaction> getLedger() {
         return null;
     }
 
-    public List<Transaction> getPendingTransactions(){
+    public List<Transaction> getPendingTransactions() {
         return null;
     }
 

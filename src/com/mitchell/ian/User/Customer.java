@@ -6,8 +6,6 @@ import com.mitchell.ian.Data.DaoFactory;
 import com.mitchell.ian.Data.User2AccountDao;
 import com.mitchell.ian.Permissions.Permissions;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Customer extends User {
@@ -59,7 +57,7 @@ public class Customer extends User {
     }
 
     public void addAccounts(List<Account> accounts) {
-        for (Account a : accounts){
+        for (Account a : accounts) {
             addAccount(a.getId());
         }
     }

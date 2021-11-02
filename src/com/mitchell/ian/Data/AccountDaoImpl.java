@@ -121,7 +121,7 @@ public class AccountDaoImpl implements AccountDao {
     public void deleteAccount(Account account) {
         String sql = "UPDATE accounts SET closed = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setBoolean(1,true);
+            preparedStatement.setBoolean(1, true);
             preparedStatement.setInt(2, account.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

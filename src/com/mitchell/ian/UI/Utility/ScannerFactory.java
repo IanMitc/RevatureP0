@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class ScannerFactory {
     private static Scanner scanner = null;
 
-    private ScannerFactory(){
+    private ScannerFactory() {
 
     }
 

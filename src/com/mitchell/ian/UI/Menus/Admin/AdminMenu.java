@@ -3,7 +3,6 @@ package com.mitchell.ian.UI.Menus.Admin;
 import com.mitchell.ian.Permissions.Permissions;
 import com.mitchell.ian.UI.Utility.Ask;
 import com.mitchell.ian.UI.Utility.Clear;
-import com.mitchell.ian.User.User;
 
 public class AdminMenu {
     public static void show() {

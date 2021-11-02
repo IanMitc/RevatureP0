@@ -5,7 +5,6 @@ import com.mitchell.ian.UI.Menus.Admin.AdminMenu;
 import com.mitchell.ian.UI.Menus.Customer.CustomerMenu;
 import com.mitchell.ian.UI.Menus.Employee.EmployeeMenu;
 import com.mitchell.ian.UI.Utility.Ask;
-import com.mitchell.ian.User.Customer;
 
 public class LoginOption {
     public static void execute() {
@@ -16,14 +15,14 @@ public class LoginOption {
 
         boolean loginSuccessful = permissions.login(email, password);
 
-        if (loginSuccessful){
+        if (loginSuccessful) {
             System.out.println("Logged In");
-        } else{
+        } else {
             System.out.println("Login Failed");
             return;
         }
 
-        switch (permissions.getUserRole()){
+        switch (permissions.getUserRole()) {
             case EMPLOYEE -> EmployeeMenu.show();
             case CUSTOMER -> CustomerMenu.show();
             case ADMIN -> AdminMenu.show();
