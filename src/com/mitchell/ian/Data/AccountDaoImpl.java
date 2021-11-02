@@ -18,7 +18,7 @@ public class AccountDaoImpl implements AccountDao {
     public Account getAccount(int id) {
         Account retrievedAccount = null;
 
-        String sql = "SELECT * FROM account WHERE id = ?";
+        String sql = "SELECT * FROM accounts WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
