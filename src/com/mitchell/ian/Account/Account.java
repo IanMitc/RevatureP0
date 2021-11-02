@@ -9,11 +9,12 @@ import com.mitchell.ian.Transaction.Transaction;
 import java.util.List;
 
 public class Account {
-    int id;
-    double balance;
-    boolean creditLocked;
-    boolean debitLocked;
-    boolean pending;
+    private int id;
+    private double balance;
+    private boolean creditLocked;
+    private boolean debitLocked;
+    private boolean pending;
+    private boolean closed;
 
     public Account(int id, double balance, boolean creditLocked, boolean debitLocked, boolean pending) {
         this.id = id;
@@ -21,6 +22,7 @@ public class Account {
         this.creditLocked = creditLocked;
         this.debitLocked = debitLocked;
         this.pending = pending;
+        this.closed = false;
     }
 
     public Account(double balance) {
@@ -28,6 +30,7 @@ public class Account {
         this.creditLocked = false;
         this.debitLocked = true;
         this.pending = true;
+        this.closed = true;
     }
 
     public boolean isCreditLocked() {
@@ -106,5 +109,13 @@ public class Account {
 
     public List<Transaction> getPendingTransactions(){
         return null;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 }

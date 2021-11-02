@@ -30,6 +30,7 @@ public class AccountDaoImpl implements AccountDao {
                     resultSet.getBoolean("debit_locked"),
                     resultSet.getBoolean("pending")
             );
+            retrievedAccount.setClosed(resultSet.getBoolean("closed"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,6 +52,8 @@ public class AccountDaoImpl implements AccountDao {
                         resultSet.getBoolean("debit_locked"),
                         resultSet.getBoolean("pending")
                 );
+                retrievedAccount.setClosed(resultSet.getBoolean("closed"));
+
                 accountList.add(retrievedAccount);
             }
         } catch (SQLException e) {

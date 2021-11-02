@@ -54,6 +54,8 @@ public class Transaction {
             throw new NullPointerException("Transaction attempted by invalid User");
 
         this.memo = memo;
+        dateCompleted = null;
+        completedBy = null;
         dateInitiated = new Date();
         pending = true;
         canceled = false;

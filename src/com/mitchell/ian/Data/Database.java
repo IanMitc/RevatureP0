@@ -62,6 +62,7 @@ public class Database {
                 "`credit_locked` boolean DEFAULT NULL," +
                 "`debit_locked` boolean DEFAULT NULL," +
                 "`pending` boolean DEFAULT NULL," +
+                "`closed` boolean DEFAULT false," +
                 "PRIMARY KEY (`id`)," +
                 "KEY `ix_account_pending` (`pending`)" +
                 ")";
