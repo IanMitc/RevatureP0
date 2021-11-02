@@ -22,20 +22,20 @@ public class Permissions {
         return permissions;
     }
 
-    public static void logout() {
+    public void logout() {
         user = null;
         loggedIn = false;
     }
 
-    public static User getUser() {
+    public User getUser() {
         return user;
     }
 
-    public static boolean isLoggedIn() {
+    public boolean isLoggedIn() {
         return loggedIn;
     }
 
-    public static Role getUserRole() {
+    public Role getUserRole() {
         return user.getRole();
     }
 
