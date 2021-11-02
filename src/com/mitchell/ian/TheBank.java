@@ -1,20 +1,16 @@
 package com.mitchell.ian;
 
-import com.mitchell.ian.Account.Account;
 import com.mitchell.ian.Data.*;
-import com.mitchell.ian.Permissions.Permissions;
-import com.mitchell.ian.Transaction.Exceptions.InvalidAmountException;
-import com.mitchell.ian.Transaction.Transaction;
-import com.mitchell.ian.UI.Utility.Clear;
-import com.mitchell.ian.User.User;
-
-import javax.security.auth.login.AccountNotFoundException;
-import java.sql.*;
+import com.mitchell.ian.UI.Menus.Shared.MainMenu;
 
 public class TheBank {
 
     public static void main(String[] args) {
         Database.initialize();
+
+        MainMenu.show();
+
+
 //
 //        Connection connection = ConnectionFactory.getConnection();
 //        TransactionDao transactionDao = DaoFactory.getTransactionDao();

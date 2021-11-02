@@ -27,7 +27,7 @@ public class Database {
                 "`email` char(50) NOT NULL," +
                 "`role` enum('SYSTEM','ADMIN','EMPLOYEE','CUSTOMER') DEFAULT NULL," +
                 "`password` char(64) NOT NULL," +
-                "`active` boolean DEFAULT true" +
+                "`active` boolean DEFAULT true," +
                 "PRIMARY KEY (`id`)," +
                 "UNIQUE KEY `email` (`email`)," +
                 "KEY `ix_users_email` (`email`)" +

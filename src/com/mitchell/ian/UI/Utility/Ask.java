@@ -3,7 +3,9 @@ package com.mitchell.ian.UI.Utility;
 import java.util.Scanner;
 
 public class Ask {
-    static public int forInt(String question, Scanner scanner) throws Exception {
+    static public int forInt(String question) throws Exception {
+        Scanner scanner = ScannerFactory.getScanner();
+
         System.out.print(question + ": ");
         if (!scanner.hasNextInt()) {
             scanner.next();
@@ -17,7 +19,9 @@ public class Ask {
         return response;
     }
 
-    static public double forDouble(String question, Scanner scanner) throws Exception {
+    static public double forDouble(String question) throws Exception {
+        Scanner scanner = ScannerFactory.getScanner();
+
         System.out.print(question + ": ");
         if (!scanner.hasNextDouble()) {
             scanner.next();
@@ -31,13 +35,17 @@ public class Ask {
         return response;
     }
 
-    static public String forString(String question, Scanner scanner) {
+    static public String forString(String question) {
+        Scanner scanner = ScannerFactory.getScanner();
+
         System.out.print(question + ": ");
 
         return scanner.nextLine();
     }
 
-    static public boolean forBoolean(String question, char trueChar, char falseChar, Scanner scanner) throws Exception {
+    static public boolean forBoolean(String question, char trueChar, char falseChar) throws Exception {
+        Scanner scanner = ScannerFactory.getScanner();
+
         trueChar = Character.toUpperCase(trueChar);
         falseChar = Character.toUpperCase(falseChar);
 
