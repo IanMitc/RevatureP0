@@ -153,4 +153,21 @@ public class Transaction {
     public boolean isRequireUserApproval() {
         return requireUserApproval;
     }
+
+    @Override
+    public String toString() {
+        return "\nId: " + id +
+                "\n\tFrom: " + initiatedBy.getName() +
+                "\n\tAmount: " + amount +
+                "\n\tAccount: " + toAccount +
+                "\n\tMemo: " + memo;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Transaction otherTransaction){
+            return otherTransaction.getId() == this.getId();
+        }
+        return false;
+    }
 }

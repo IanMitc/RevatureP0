@@ -50,10 +50,10 @@ public class User2AccountDaoImpl implements User2AccountDao {
 
     @Override
     public void connect(int userId, int accountId) {
-        String sql = "INSERT INTO user2accounts (user_id, account_id) VALUES (?, ?)";
+        String sql = "INSERT INTO user2account (user_id, account_id) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setDouble(1, userId);
-            preparedStatement.setDouble(2, accountId);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, accountId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

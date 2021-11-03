@@ -23,7 +23,7 @@ public class TransferOption {
         List<Account> accounts = accountDao.getAllAccounts(user);
 
         for (Account a : accounts)
-            System.out.println(a);
+            System.out.println(a + "\n");
 
         int fromId = 0;
         boolean run = true;

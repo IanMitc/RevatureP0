@@ -1,9 +1,6 @@
 package com.mitchell.ian.Account;
 
-import com.mitchell.ian.Account.Exceptions.AccountApprovalPendingException;
-import com.mitchell.ian.Account.Exceptions.CreditLockedException;
-import com.mitchell.ian.Account.Exceptions.DebitLockedException;
-import com.mitchell.ian.Account.Exceptions.InsufficientFundsException;
+import com.mitchell.ian.Account.Exceptions.*;
 import com.mitchell.ian.Data.DaoFactory;
 import com.mitchell.ian.Data.TransactionDao;
 import com.mitchell.ian.Transaction.Transaction;
@@ -90,7 +87,10 @@ public class Account {
         return pendingBalance;
     }
 
-    public void credit(double amount) throws CreditLockedException, AccountApprovalPendingException {
+    public void credit(double amount) throws NegativeAmountException, CreditLockedException, AccountApprovalPendingException {
+        if(amount <= 0) {
+            throw new NegativeAmountException();
+        }
         if (pending) {
             throw new AccountApprovalPendingException();
         }
@@ -101,7 +101,10 @@ public class Account {
         balance += amount;
     }
 
-    public void debit(double amount) throws InsufficientFundsException, DebitLockedException, AccountApprovalPendingException {
+    public void debit(double amount) throws NegativeAmountException, InsufficientFundsException, DebitLockedException, AccountApprovalPendingException {
+        if(amount <= 0) {
+            throw new NegativeAmountException();
+        }
         if (pending) {
             throw new AccountApprovalPendingException();
         }

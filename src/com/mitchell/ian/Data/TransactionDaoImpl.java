@@ -21,11 +21,12 @@ public class TransactionDaoImpl implements TransactionDao {
         AccountDao accountDao = DaoFactory.getAccountDao();
         UserDao userDao = DaoFactory.getUserDao();
 
-        String sql = "SELECT * FROM account WHERE  id = ?";
+        String sql = "SELECT * FROM transactions WHERE  id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
+
             retrievedTransaction = new Transaction(
                     resultSet.getDouble("amount"),
                     accountDao.getAccount(resultSet.getInt("from_account")),

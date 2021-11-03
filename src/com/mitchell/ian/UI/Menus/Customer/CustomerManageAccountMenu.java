@@ -1,8 +1,13 @@
 package com.mitchell.ian.UI.Menus.Customer;
 
+import com.mitchell.ian.Data.AccountDao;
+import com.mitchell.ian.Data.DaoFactory;
+import com.mitchell.ian.Permissions.Permissions;
+import com.mitchell.ian.UI.Menus.Customer.Options.ApplyForNewAccountOption;
 import com.mitchell.ian.UI.Menus.Shared.Options.ExitOption;
 import com.mitchell.ian.UI.Utility.Ask;
 import com.mitchell.ian.UI.Utility.Clear;
+import com.mitchell.ian.User.User;
 
 public class CustomerManageAccountMenu {
     public static void show() {
@@ -12,12 +17,11 @@ public class CustomerManageAccountMenu {
         while (run) {
             int selection;
 
-            System.out.println("\nTitle\n\n");
+            System.out.println("\nManage Accounts\n\n");
 
-            System.out.println("1 - ");
-            System.out.println("2 - ");
-            System.out.println("3 - ");
-            System.out.println("4 - Back");
+            System.out.println("1 - Approve Pending Transfers");
+            System.out.println("2 - Apply for New Account");
+            System.out.println("3 - Back");
             try {
                 selection = Ask.forInt("Select Option");
             } catch (Exception e) {
@@ -26,12 +30,12 @@ public class CustomerManageAccountMenu {
             }
 
             switch (selection) {
-                case 1 -> ExitOption.execute();
-                case 2 -> ExitOption.execute();
-                case 3 -> ExitOption.execute();
-                case 4 -> run = false;
+                case 1 -> ApprovePendingMenu.show();
+                case 2 -> ApplyForNewAccountOption.execute();
+                case 3 -> run = false;
                 default -> System.out.println("\nPlease make a valid selection.\n");
             }
         }
+        Clear.console();
     }
 }
