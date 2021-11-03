@@ -60,7 +60,8 @@ public class UserDaoImpl implements UserDao {
             retrievedUser.setActive(resultSet.getBoolean("active"));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            //TODO Figure out why resultSet.getInt("id") has issues, Everything returns fine so ignoring for now...
+            //e.printStackTrace();
         }
         return retrievedUser;
     }

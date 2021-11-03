@@ -35,7 +35,7 @@ public class CustomerMenu {
             System.out.println("2 - Transfer");
             System.out.println("3 - Withdraw");
             System.out.println("4 - Deposit");
-            System.out.println("5 - Back");
+            System.out.println("5 - Logout");
             try {
                 selection = Ask.forInt("Select Option");
             } catch (Exception e) {
