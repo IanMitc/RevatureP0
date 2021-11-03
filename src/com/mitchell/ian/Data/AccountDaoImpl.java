@@ -66,12 +66,14 @@ public class AccountDaoImpl implements AccountDao {
     public List<Account> getAllAccounts(User user) {
         List<Account> accountList = new ArrayList<>();
 
-        String sql = "SELECT * FROM user2account WHERE user_id = ? AND closed = false";
+        String sql = "SELECT * FROM user2account WHERE user_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Account retrievedAccount = getAccount(resultSet.getInt("account_id"));
-                accountList.add(retrievedAccount);
+                if (!retrievedAccount.isClosed() && !retrievedAccount.isPending())
+                    accountList.add(retrievedAccount);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -21,7 +21,7 @@ public class User2AccountDaoImpl implements User2AccountDao {
         String sql = "SELECT * FROM user2account WHERE user_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 accountList.add(resultSet.getInt("id"));
             }
@@ -38,7 +38,7 @@ public class User2AccountDaoImpl implements User2AccountDao {
         String sql = "SELECT * FROM user2account WHERE account_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, accountId);
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 userList.add(resultSet.getInt("id"));
             }

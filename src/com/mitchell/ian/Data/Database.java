@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Database {
@@ -16,16 +17,32 @@ public class Database {
 
     private static void populateDefaultData() {
         Connection connection = ConnectionFactory.getConnection();
-
-        String adminInsertSql = "INSERT INTO users values (1, 'Administrator', 'admin', 'ADMIN', 'password', true)";
-        String cashAccountInsertSql = "INSERT INTO accounts values (1, 5000000, false, false, false, false)";
+        List<String> sqlInserts = new ArrayList<>();
+        Collections.addAll(sqlInserts,
+                "INSERT INTO users values (1, 'Administrator', 'admin', 'ADMIN', 'password', true)",
+                "INSERT INTO users values (2, 'Employee', 'employee', 'EMPLOYEE', 'password', true)",
+                "INSERT INTO users values (3, 'Mr. Customer', 'mrcx', 'CUSTOMER', 'password', true)",
+                "INSERT INTO users values (4, 'Ms. Customer', 'mscx', 'CUSTOMER', 'password', true)",
+                "INSERT INTO accounts values (1, 5000000, false, false, false, false)",
+                "INSERT INTO accounts values (2, 500, false, false, false, false)",
+                "INSERT INTO accounts values (3, 2000, false, false, false, false)",
+                "INSERT INTO accounts values (4, 100, false, false, false, false)",
+                "INSERT INTO accounts values (5, 200, false, false, false, false)",
+                "INSERT INTO accounts values (6, 200, false, false, true, false)",
+                "INSERT INTO user2account values (3, 3)",
+                "INSERT INTO user2account values (3, 4)",
+                "INSERT INTO user2account values (3, 5)",
+                "INSERT INTO user2account values (3, 6)",
+                "INSERT INTO user2account values (4, 2)",
+                "INSERT INTO user2account values (4, 4)");
         try {
             Statement statement = connection.createStatement();
-            statement.addBatch(adminInsertSql);
-            statement.addBatch(cashAccountInsertSql);
+            for (String sqlInsert : sqlInserts) {
+                statement.addBatch(sqlInsert);
+            }
             statement.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace();
+            //System.out.println(e.getSQLState());
         }
     }
 

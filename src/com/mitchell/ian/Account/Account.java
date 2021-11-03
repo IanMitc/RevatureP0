@@ -36,17 +36,17 @@ public class Account {
         this.closed = false;
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj instanceof Account otherAccount){
-//            return otherAccount.getId() == this.getId();
-//        }
-//        return false;
-//    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Account otherAccount){
+            return otherAccount.getId() == this.getId();
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
-        return String.format("Account Number: %o Balance: %.2f Available Balance: %.2f", this.id, this.balance, this.getBalanceWithPending());
+        return String.format("Account Number: %o \n\tBalance: %.2f\n\tAvailable: %.2f", this.id, this.balance, this.getBalanceWithPending());
     }
 
     public boolean isCreditLocked() {
@@ -109,7 +109,7 @@ public class Account {
             throw new DebitLockedException();
         }
 
-        if (balance < amount) {
+        if (this.getBalanceWithPending() < amount) {
             throw new InsufficientFundsException();
         }
 
@@ -132,6 +132,7 @@ public class Account {
         TransactionDao transactionDao = DaoFactory.getTransactionDao();
         return transactionDao.getAllTransactions(this);
     }
+
 
     public List<Transaction> getPendingTransactions() {
         TransactionDao transactionDao = DaoFactory.getTransactionDao();

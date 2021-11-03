@@ -55,7 +55,7 @@ public class TransactionDaoImpl implements TransactionDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, user.getId());
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Transaction retrievedTransaction = new Transaction(
                         resultSet.getDouble("amount"),
@@ -88,7 +88,7 @@ public class TransactionDaoImpl implements TransactionDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, account.getId());
             preparedStatement.setInt(2, account.getId());
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Transaction retrievedTransaction = new Transaction(
                         resultSet.getDouble("amount"),
@@ -179,11 +179,11 @@ public class TransactionDaoImpl implements TransactionDao {
         AccountDao accountDao = DaoFactory.getAccountDao();
         UserDao userDao = DaoFactory.getUserDao();
 
-        String sql = "SELECT * FROM transactions WHERE (initiated_by = ? OR  completed_by = ?) AND pending = true";
+        String sql = "SELECT * FROM transactions WHERE (initiated_by = ? OR  completed_by = ?) and pending = true";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, user.getId());
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Transaction retrievedTransaction = new Transaction(
                         resultSet.getDouble("amount"),
@@ -194,11 +194,12 @@ public class TransactionDaoImpl implements TransactionDao {
                         resultSet.getDate("date_initiated"),
                         resultSet.getBoolean("require_user_approval"),
                         resultSet.getInt("id"),
-                        userDao.getUser(resultSet.getInt("completed_by")),
-                        resultSet.getDate("date_completed"),
-                        resultSet.getBoolean("pending")
+                        null,
+                        null,
+                        true
                 );
-                transactionList.add(retrievedTransaction);
+                if (retrievedTransaction.isPending())
+                    transactionList.add(retrievedTransaction);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -216,7 +217,7 @@ public class TransactionDaoImpl implements TransactionDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, account.getId());
             preparedStatement.setInt(2, account.getId());
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Transaction retrievedTransaction = new Transaction(
                         resultSet.getDouble("amount"),
@@ -227,9 +228,9 @@ public class TransactionDaoImpl implements TransactionDao {
                         resultSet.getDate("date_initiated"),
                         resultSet.getBoolean("require_user_approval"),
                         resultSet.getInt("id"),
-                        userDao.getUser(resultSet.getInt("completed_by")),
-                        resultSet.getDate("date_completed"),
-                        resultSet.getBoolean("pending")
+                        null,
+                        null,
+                        true
                 );
                 transactionList.add(retrievedTransaction);
             }
@@ -241,7 +242,7 @@ public class TransactionDaoImpl implements TransactionDao {
 
     @Override
     public void addTransaction(Transaction transaction) {
-        String sql = "INSERT INTO transactions (amount, from_account, to_account, initiated_by, date_initiated) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO transactions (amount, from_account, to_account, initiated_by, date_initiated, pending) VALUES (?, ?, ?, ?, ?, true)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setDouble(1, transaction.getAmount());
             preparedStatement.setInt(2, transaction.getFromAccount().getId());
@@ -272,8 +273,7 @@ public class TransactionDaoImpl implements TransactionDao {
 
     @Override
     public void updateTransaction(Transaction transaction) {
-        String sql = "UPDATE transactions " +
-                "SET " +
+        String sql = "UPDATE transactions SET " +
                 "amount = ?, " +
                 "from_account = ?, " +
                 "to_account = ?, " +
@@ -291,8 +291,15 @@ public class TransactionDaoImpl implements TransactionDao {
             preparedStatement.setInt(3, transaction.getToAccount().getId());
             preparedStatement.setInt(4, transaction.getInitiatedBy().getId());
             preparedStatement.setDate(5, new java.sql.Date(transaction.getDateInitiated().getTime()));
-            preparedStatement.setInt(6, transaction.getCompletedBy().getId());
-            preparedStatement.setDate(7, new java.sql.Date(transaction.getDateCompleted().getTime()));
+
+            if (transaction.getCompletedBy() != null) {
+                preparedStatement.setInt(6, transaction.getCompletedBy().getId());
+                preparedStatement.setDate(7, new java.sql.Date(transaction.getDateCompleted().getTime()));
+            } else {
+                preparedStatement.setNull(6, Types.INTEGER);
+                preparedStatement.setNull(7, Types.DATE);
+            }
+
             preparedStatement.setBoolean(8, transaction.isRequireUserApproval());
             preparedStatement.setBoolean(9, transaction.isPending());
             preparedStatement.setString(10, transaction.getMemo());
