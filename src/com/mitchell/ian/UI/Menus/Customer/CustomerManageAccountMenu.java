@@ -1,13 +1,8 @@
 package com.mitchell.ian.UI.Menus.Customer;
 
-import com.mitchell.ian.Data.AccountDao;
-import com.mitchell.ian.Data.DaoFactory;
-import com.mitchell.ian.Permissions.Permissions;
 import com.mitchell.ian.UI.Menus.Customer.Options.ApplyForNewAccountOption;
-import com.mitchell.ian.UI.Menus.Shared.Options.ExitOption;
 import com.mitchell.ian.UI.Utility.Ask;
 import com.mitchell.ian.UI.Utility.Clear;
-import com.mitchell.ian.User.User;
 
 public class CustomerManageAccountMenu {
     public static void show() {

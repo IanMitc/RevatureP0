@@ -35,7 +35,7 @@ public class Account {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Account otherAccount){
+        if (obj instanceof Account otherAccount) {
             return otherAccount.getId() == this.getId();
         }
         return false;
@@ -88,7 +88,7 @@ public class Account {
     }
 
     public void credit(double amount) throws NegativeAmountException, CreditLockedException, AccountApprovalPendingException {
-        if(amount <= 0) {
+        if (amount <= 0) {
             throw new NegativeAmountException();
         }
         if (pending) {
@@ -102,7 +102,7 @@ public class Account {
     }
 
     public void debit(double amount) throws NegativeAmountException, InsufficientFundsException, DebitLockedException, AccountApprovalPendingException {
-        if(amount <= 0) {
+        if (amount <= 0) {
             throw new NegativeAmountException();
         }
         if (pending) {

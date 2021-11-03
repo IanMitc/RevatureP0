@@ -56,6 +56,6 @@ public class Ask {
         if (result.length() != 1 || (charResult != trueChar && charResult != falseChar))
             throw new Exception("Please choose " + trueChar + " or " + falseChar);
         else
-            return  charResult == trueChar;
+            return charResult == trueChar;
     }
 }

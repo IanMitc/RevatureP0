@@ -1,7 +1,6 @@
 package com.mitchell.ian.UI.Menus.Employee;
 
 import com.mitchell.ian.UI.Menus.Employee.Options.ViewTransactionsOption;
-import com.mitchell.ian.UI.Menus.Shared.Options.ExitOption;
 import com.mitchell.ian.UI.Utility.Ask;
 import com.mitchell.ian.UI.Utility.Clear;
 

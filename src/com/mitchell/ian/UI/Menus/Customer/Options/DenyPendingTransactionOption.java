@@ -1,6 +1,5 @@
 package com.mitchell.ian.UI.Menus.Customer.Options;
 
-import com.mitchell.ian.Account.Account;
 import com.mitchell.ian.Data.AccountDao;
 import com.mitchell.ian.Data.DaoFactory;
 import com.mitchell.ian.Data.TransactionDao;

@@ -165,7 +165,7 @@ public class Transaction {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Transaction otherTransaction){
+        if (obj instanceof Transaction otherTransaction) {
             return otherTransaction.getId() == this.getId();
         }
         return false;
